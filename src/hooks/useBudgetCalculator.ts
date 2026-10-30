@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { EventPlan, BudgetItem } from '../types/event';
+import { EventPlan } from '../types/event';
 
 export interface CategorySummary {
   category: string;

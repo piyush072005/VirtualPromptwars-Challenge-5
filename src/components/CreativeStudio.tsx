@@ -10,11 +10,9 @@ import {
   Wand2, 
   Loader2, 
   Volume2, 
-  Layers, 
-  ExternalLink,
-  Flame
+  Layers
 } from 'lucide-react';
-import { useEventContext } from '../context/EventContext';
+import { useEventContext } from '../context/useEventContext';
 import { refreshCreativeIdeation } from '../services/geminiService';
 
 export const CreativeStudio: React.FC = () => {

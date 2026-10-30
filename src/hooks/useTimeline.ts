@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { EventPlan, TaskStatus, TimelineTask } from '../types/event';
+import { EventPlan } from '../types/event';
 
 export function useTimeline(event: EventPlan) {
   const calculations = useMemo(() => {

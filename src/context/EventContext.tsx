@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import confetti from 'canvas-confetti';
 import { 
   EventPlan, 
@@ -6,66 +6,15 @@ import {
   TimelineTask, 
   VendorCard, 
   CreativeIdeation, 
-  VendorQuote,
-  EventAction
+  VendorQuote
 } from '../types/event';
 import { INITIAL_EVENTS } from '../data/mockEvents';
 import { loadSafeEvents, saveSafeEvents } from '../utils/storageSecurity';
-
-export type TabType = 'dashboard' | 'onboarding' | 'budget' | 'timeline' | 'vendors' | 'creative' | 'export';
-
-interface EventContextType {
-  events: readonly EventPlan[];
-  activeEvent: EventPlan;
-  activeTab: TabType;
-  setActiveTab: (tab: TabType) => void;
-  selectEvent: (id: string) => void;
-  createEvent: (newEvent: EventPlan) => void;
-  updateActiveEvent: (updated: Partial<EventPlan>) => void;
-  deleteEvent: (id: string) => void;
-  resetToSampleData: () => void;
-  
-  // Budget operations
-  addBudgetItem: (item: Omit<BudgetItem, 'id'>) => void;
-  updateBudgetItem: (id: string, updates: Partial<BudgetItem>) => void;
-  deleteBudgetItem: (id: string) => void;
-  
-  // Timeline operations
-  addTimelineTask: (task: Omit<TimelineTask, 'id'>) => void;
-  updateTimelineTask: (id: string, updates: Partial<TimelineTask>) => void;
-  deleteTimelineTask: (id: string) => void;
-  reorderTimelineTask: (startIndex: number, endIndex: number) => void;
-  toggleMilestone: (id: string) => void;
-  
-  // Vendor operations with cross-pillar sync
-  addVendorCard: (card: Omit<VendorCard, 'id'>) => void;
-  updateVendorCard: (id: string, updates: Partial<VendorCard>) => void;
-  deleteVendorCard: (id: string) => void;
-  addVendorQuote: (vendorId: string, quote: Omit<VendorQuote, 'id'>) => void;
-  selectQuote: (vendorId: string, quoteId: string) => void;
-  
-  // Creative operations
-  updateIdeation: (ideation: Partial<CreativeIdeation>) => void;
-  
-  // API Key management
-  apiKey: string;
-  setApiKey: (key: string) => void;
-  isApiKeyModalOpen: boolean;
-  setIsApiKeyModalOpen: (open: boolean) => void;
-  
-  // Export / Print Modal
-  isExportModalOpen: boolean;
-  setIsExportModalOpen: (open: boolean) => void;
-  
-  // Confetti trigger
-  triggerCelebration: () => void;
-}
+import { EventContext, TabType } from './EventContextInstance';
 
 const STORAGE_KEY_EVENTS = 'eventvibe_ai_events';
 const STORAGE_KEY_ACTIVE_ID = 'eventvibe_ai_active_id';
 const STORAGE_KEY_API_KEY = 'eventvibe_ai_gemini_key';
-
-const EventContext = createContext<EventContextType | undefined>(undefined);
 
 export const EventProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   // Load events with Zod runtime validation
@@ -77,7 +26,9 @@ export const EventProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     try {
       const savedId = localStorage.getItem(STORAGE_KEY_ACTIVE_ID);
       if (savedId) return savedId;
-    } catch (e) {}
+    } catch {
+      // Ignore storage read error
+    }
     return INITIAL_EVENTS[0]?.id || '';
   });
 
@@ -102,14 +53,18 @@ export const EventProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   useEffect(() => {
     try {
       localStorage.setItem(STORAGE_KEY_ACTIVE_ID, activeEventId);
-    } catch (e) {}
+    } catch {
+      // Ignore storage write error
+    }
   }, [activeEventId]);
 
   const setApiKey = useCallback((key: string) => {
     setApiKeyState(key);
     try {
       localStorage.setItem(STORAGE_KEY_API_KEY, key);
-    } catch (e) {}
+    } catch {
+      // Ignore storage write error
+    }
   }, []);
 
   const activeEvent = events.find((e) => e.id === activeEventId) || events[0] || INITIAL_EVENTS[0];
@@ -122,7 +77,9 @@ export const EventProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         origin: { y: 0.6 },
         colors: ['#d946ef', '#6366f1', '#06b6d4', '#eab308']
       });
-    } catch (e) {}
+    } catch {
+      // Ignore canvas error
+    }
   }, []);
 
   const selectEvent = useCallback((id: string) => {
@@ -366,12 +323,4 @@ export const EventProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       {children}
     </EventContext.Provider>
   );
-};
-
-export const useEventContext = () => {
-  const context = useContext(EventContext);
-  if (!context) {
-    throw new Error('useEventContext must be used within an EventProvider');
-  }
-  return context;
 };

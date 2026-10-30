@@ -5,11 +5,9 @@ import {
   Printer, 
   Calendar, 
   Plus, 
-  CheckCircle2, 
-  HelpCircle,
   FolderSync
 } from 'lucide-react';
-import { useEventContext } from '../context/EventContext';
+import { useEventContext } from '../context/useEventContext';
 
 export const Navbar: React.FC = () => {
   const { 
@@ -55,6 +53,7 @@ export const Navbar: React.FC = () => {
             <select
               value={activeEvent.id}
               onChange={(e) => selectEvent(e.target.value)}
+              aria-label="Select active event plan"
               className="appearance-none bg-surface-900 border border-slate-700/80 hover:border-slate-600 text-slate-100 text-xs md:text-sm rounded-lg pl-3 pr-8 py-1.5 focus:outline-none focus:ring-2 focus:ring-brand-500/40 cursor-pointer max-w-[200px] sm:max-w-xs truncate"
             >
               {events.map((evt) => (
@@ -64,17 +63,18 @@ export const Navbar: React.FC = () => {
                 </option>
               ))}
             </select>
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-400">
+            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-400" aria-hidden="true">
               <Calendar className="w-3.5 h-3.5" />
             </div>
           </div>
 
           <button
             onClick={() => setActiveTab('onboarding')}
-            className="flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg bg-brand-600/20 hover:bg-brand-600/30 text-brand-300 border border-brand-500/30 transition-all"
+            className="flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg bg-brand-600/20 hover:bg-brand-600/30 text-brand-300 border border-brand-500/30 transition-all focus-visible:ring-2 focus-visible:ring-brand-400"
             title="Create New Event Plan"
+            aria-label="Create New Event Plan"
           >
-            <Plus className="w-3.5 h-3.5" />
+            <Plus className="w-3.5 h-3.5" aria-hidden="true" />
             <span className="hidden md:inline">New Plan</span>
           </button>
         </div>
@@ -84,15 +84,16 @@ export const Navbar: React.FC = () => {
           {/* AI Status Badge */}
           <button
             onClick={() => setIsApiKeyModalOpen(true)}
-            className={`flex items-center gap-1.5 text-xs px-2.5 py-1.5 rounded-lg border transition-all ${
+            aria-label={apiKey ? "Gemini 1.5 Active, configure API key" : "AI Copilot Ready, enter API key"}
+            className={`flex items-center gap-1.5 text-xs px-2.5 py-1.5 rounded-lg border transition-all focus-visible:ring-2 focus-visible:ring-brand-400 ${
               apiKey
                 ? 'bg-emerald-950/40 text-emerald-300 border-emerald-500/30 hover:bg-emerald-950/60'
                 : 'bg-surface-900 text-slate-300 border-slate-700 hover:border-brand-500/40'
             }`}
             title={apiKey ? "Gemini API Key Connected" : "Running in Zero-Friction Hybrid Heuristic Mode. Click to add your Gemini API Key."}
           >
-            <span className={`w-2 h-2 rounded-full ${apiKey ? 'bg-emerald-400 animate-ping' : 'bg-brand-400'}`} />
-            <Key className="w-3.5 h-3.5" />
+            <span className={`w-2 h-2 rounded-full ${apiKey ? 'bg-emerald-400 animate-ping' : 'bg-brand-400'}`} aria-hidden="true" />
+            <Key className="w-3.5 h-3.5" aria-hidden="true" />
             <span className="hidden lg:inline">
               {apiKey ? 'Gemini 1.5 Active' : 'AI Copilot Ready'}
             </span>
@@ -101,10 +102,11 @@ export const Navbar: React.FC = () => {
           {/* Export / Print Button */}
           <button
             onClick={() => setIsExportModalOpen(true)}
-            className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg bg-surface-900 hover:bg-surface-800 text-slate-200 border border-slate-700/80 transition-all"
+            aria-label="Export or Print Event Dossier"
+            className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg bg-surface-900 hover:bg-surface-800 text-slate-200 border border-slate-700/80 transition-all focus-visible:ring-2 focus-visible:ring-brand-400"
             title="Print Run-of-Show or Export Markdown"
           >
-            <Printer className="w-3.5 h-3.5 text-slate-400" />
+            <Printer className="w-3.5 h-3.5 text-slate-400" aria-hidden="true" />
             <span className="hidden sm:inline">Export / Print</span>
           </button>
 
@@ -115,10 +117,11 @@ export const Navbar: React.FC = () => {
                 resetToSampleData();
               }
             }}
-            className="p-1.5 text-slate-400 hover:text-slate-200 hover:bg-surface-900 rounded-lg transition-all"
+            aria-label="Reload sample showcase events"
+            className="p-1.5 text-slate-400 hover:text-slate-200 hover:bg-surface-900 rounded-lg transition-all focus-visible:ring-2 focus-visible:ring-brand-400"
             title="Reload Sample Showcases"
           >
-            <FolderSync className="w-4 h-4" />
+            <FolderSync className="w-4 h-4" aria-hidden="true" />
           </button>
         </div>
 

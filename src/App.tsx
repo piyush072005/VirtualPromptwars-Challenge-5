@@ -1,5 +1,6 @@
 import React from 'react';
-import { EventProvider, useEventContext } from './context/EventContext';
+import { EventProvider } from './context/EventContext';
+import { useEventContext } from './context/useEventContext';
 import { Navbar } from './components/Navbar';
 import { Sidebar } from './components/Sidebar';
 import { DashboardView } from './components/DashboardView';
@@ -60,7 +61,14 @@ const MainLayout: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-surface-950 text-slate-100 flex flex-col selection:bg-brand-500/30 selection:text-brand-200">
-      
+      {/* WCAG Skip to Main Content Link */}
+      <a 
+        href="#main-content" 
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:px-4 focus:py-2 focus:bg-brand-600 focus:text-white focus:font-semibold focus:rounded-xl focus:shadow-2xl focus:outline-none focus:ring-2 focus:ring-brand-400"
+      >
+        Skip to main content
+      </a>
+
       {/* Top Navbar Header */}
       <Navbar />
 

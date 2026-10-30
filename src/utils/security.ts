@@ -1,6 +1,21 @@
 import DOMPurify from 'dompurify';
 
 /**
+ * Strips ASCII and extended control characters while preserving standard printable text and whitespace.
+ */
+function stripControlCharacters(str: string): string {
+  let result = '';
+  for (let i = 0; i < str.length; i++) {
+    const code = str.charCodeAt(i);
+    // Disallow non-printable ASCII control characters (0-31 except tab/newline/cr) and DEL/C1 (127-159)
+    if ((code >= 32 && (code < 127 || code > 159)) || code === 9 || code === 10 || code === 13) {
+      result += str[i];
+    }
+  }
+  return result;
+}
+
+/**
  * Strips prompt injection vectors, control characters, and enforces length bounds.
  */
 export function sanitizePromptInput(input: unknown, maxLength = 500): string {
@@ -9,8 +24,8 @@ export function sanitizePromptInput(input: unknown, maxLength = 500): string {
   }
 
   // Remove control characters and potential delimiter breakers
-  const sanitized = input
-    .replace(/[\u0000-\u001F\u007F-\u009F]/g, '') // Remove ASCII control characters
+  const cleanChars = stripControlCharacters(input);
+  const sanitized = cleanChars
     .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '') // Remove script blocks
     .replace(/```/g, "'''") // Neutralize markdown code fences
     .replace(/[<>]/g, (match) => (match === '<' ? '&lt;' : '&gt;')) // Escape raw angle brackets

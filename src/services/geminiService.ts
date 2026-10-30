@@ -7,8 +7,7 @@ import {
   BudgetItem, 
   MacroMilestone, 
   TimelineTask, 
-  VendorCard,
-  VendorCategory
+  VendorCard
 } from '../types/event';
 import { 
   EventPlanSchema, 

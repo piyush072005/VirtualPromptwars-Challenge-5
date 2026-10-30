@@ -1,7 +1,6 @@
 import React, { useState, useMemo, memo } from 'react';
 import { 
   Clock, 
-  Calendar, 
   Plus, 
   Trash2, 
   ArrowUp, 
@@ -10,7 +9,7 @@ import {
   User, 
   Tag
 } from 'lucide-react';
-import { useEventContext } from '../context/EventContext';
+import { useEventContext } from '../context/useEventContext';
 import { useTimeline } from '../hooks/useTimeline';
 import { TimelineTask, TaskStatus } from '../types/event';
 import { sanitizePromptInput } from '../utils/security';
