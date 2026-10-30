@@ -12,7 +12,7 @@ import {
   Wand2,
   HeartHandshake
 } from 'lucide-react';
-import { useEventContext } from '../context/EventContext';
+import { useEventContext } from '../context/useEventContext';
 import { EventType } from '../types/event';
 import { generateEventDossier, OnboardingInput } from '../services/geminiService';
 import { INITIAL_EVENTS } from '../data/mockEvents';
@@ -205,8 +205,9 @@ export const OnboardingWizard: React.FC = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-300">Event Title / Working Name</label>
+                <label htmlFor="wizard-event-name" className="text-xs font-semibold text-slate-300">Event Title / Working Name</label>
                 <input
+                  id="wizard-event-name"
                   type="text"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -216,8 +217,9 @@ export const OnboardingWizard: React.FC = () => {
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-300">Celebration Category</label>
+                <label htmlFor="wizard-event-type" className="text-xs font-semibold text-slate-300">Celebration Category</label>
                 <select
+                  id="wizard-event-type"
                   value={formData.eventType}
                   onChange={(e) => setFormData({ ...formData, eventType: e.target.value as EventType })}
                   className="w-full bg-surface-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-white focus:outline-none focus:ring-2 focus:ring-brand-500/40 cursor-pointer"
@@ -232,8 +234,9 @@ export const OnboardingWizard: React.FC = () => {
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-300">Target Date</label>
+                <label htmlFor="wizard-event-date" className="text-xs font-semibold text-slate-300">Target Date</label>
                 <input
+                  id="wizard-event-date"
                   type="date"
                   value={formData.date}
                   onChange={(e) => setFormData({ ...formData, date: e.target.value })}
@@ -242,8 +245,9 @@ export const OnboardingWizard: React.FC = () => {
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-300">Primary Start Time</label>
+                <label htmlFor="wizard-event-time" className="text-xs font-semibold text-slate-300">Primary Start Time</label>
                 <input
+                  id="wizard-event-time"
                   type="time"
                   value={formData.time}
                   onChange={(e) => setFormData({ ...formData, time: e.target.value })}
@@ -252,9 +256,10 @@ export const OnboardingWizard: React.FC = () => {
               </div>
 
               <div className="space-y-1.5 md:col-span-2">
-                <label className="text-xs font-semibold text-slate-300">Location / Venue Concept</label>
+                <label htmlFor="wizard-event-location" className="text-xs font-semibold text-slate-300">Location / Venue Concept</label>
                 <div className="relative">
                   <input
+                    id="wizard-event-location"
                     type="text"
                     value={formData.location}
                     onChange={(e) => setFormData({ ...formData, location: e.target.value })}
@@ -321,10 +326,11 @@ export const OnboardingWizard: React.FC = () => {
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-300">
+                <label htmlFor="wizard-guest-demographics" className="text-xs font-semibold text-slate-300">
                   Guest Demographics & Audience Persona
                 </label>
                 <textarea
+                  id="wizard-guest-demographics"
                   rows={3}
                   value={formData.demographics}
                   onChange={(e) => setFormData({ ...formData, demographics: e.target.value })}
@@ -349,8 +355,9 @@ export const OnboardingWizard: React.FC = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-300">Preferred Currency</label>
+                <label htmlFor="wizard-currency" className="text-xs font-semibold text-slate-300">Preferred Currency</label>
                 <select
+                  id="wizard-currency"
                   value={formData.currency}
                   onChange={(e) => setFormData({ ...formData, currency: e.target.value })}
                   className="w-full bg-surface-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-white focus:outline-none focus:ring-2 focus:ring-brand-500/40 cursor-pointer"
@@ -365,12 +372,13 @@ export const OnboardingWizard: React.FC = () => {
               </div>
 
               <div className="space-y-1.5 md:col-span-2">
-                <label className="text-xs font-semibold text-slate-300">Total All-Inclusive Budget</label>
+                <label htmlFor="wizard-total-budget" className="text-xs font-semibold text-slate-300">Total All-Inclusive Budget</label>
                 <div className="relative">
                   <span className="absolute left-3.5 top-2.5 text-slate-400 font-bold text-sm">
                     {formData.currency}
                   </span>
                   <input
+                    id="wizard-total-budget"
                     type="number"
                     min="500"
                     step="500"
@@ -429,8 +437,9 @@ export const OnboardingWizard: React.FC = () => {
             </div>
 
             <div className="space-y-1.5 pt-2">
-              <label className="text-xs font-semibold text-slate-300">Custom Vibe Statement</label>
+              <label htmlFor="wizard-custom-vibe" className="text-xs font-semibold text-slate-300">Custom Vibe Statement</label>
               <textarea
+                id="wizard-custom-vibe"
                 rows={3}
                 value={formData.vibeTone}
                 onChange={(e) => setFormData({ ...formData, vibeTone: e.target.value })}

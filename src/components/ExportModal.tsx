@@ -5,11 +5,10 @@ import {
   Download, 
   FileText, 
   Copy, 
-  Check, 
   Upload, 
   CheckCircle2 
 } from 'lucide-react';
-import { useEventContext } from '../context/EventContext';
+import { useEventContext } from '../context/useEventContext';
 import { EventPlan } from '../types/event';
 
 export const ExportModal: React.FC = () => {
@@ -68,34 +67,34 @@ ${event.dayOfItinerary.map(t => `| ${t.time} | ${t.title} (${t.category}) | ${t.
 ---
 
 ## 4. Vendor Hub & Contract Status
-${event.vendors.map(v => `
+${(event.vendors || []).map(v => `
 ### ${v.name} (${v.category})
 - **Status**: ${v.status} | **Contract Signed**: ${v.contractSigned ? 'YES' : 'NO'}
 - **Contact**: ${v.contactPerson || 'N/A'} (${v.phone || ''} / ${v.email || ''})
 - **Target Budget**: ${event.currency}${v.estimatedCost.toLocaleString()}
 - **Vetted Answers**:
-${v.vettedQuestions.map(q => `  - *Q: ${q.question}* -> **${q.answer || 'Pending'}**`).join('\n')}
+${(v.vettedQuestions || []).map(q => `  - *Q: ${q.question}* -> **${q.answer || 'Pending'}**`).join('\n')}
 - **Red Flags Audited**:
-${v.redFlagsToCheck.map(r => `  - [${r.checked ? 'x' : ' '}] ${r.flag}`).join('\n')}
+${(v.redFlagsToCheck || []).map(r => `  - [${r.checked ? 'x' : ' '}] ${r.flag}`).join('\n')}
 `).join('\n')}
 
 ---
 
 ## 5. Creative Ideation Suite
-- **Theme Title**: ${event.ideation.themeTitle}
-- **Vibe Concept**: ${event.ideation.vibeStatement}
+- **Theme Title**: ${event.ideation?.themeTitle || 'Custom Theme'}
+- **Vibe Concept**: ${event.ideation?.vibeStatement || ''}
 
 ### Color Palette (HEX)
-${event.ideation.colorPalette.map(c => `- **${c.hex}** (${c.name}): ${c.usage}`).join('\n')}
+${(event.ideation?.colorPalette || []).map(c => `- **${c.hex}** (${c.name}): ${c.usage}`).join('\n')}
 
 ### Curated Cocktails & Catering
-${event.ideation.menuAndBeverages.cocktails.map(d => `- **${d.name}** (${d.type}): ${d.ingredients} (*${d.flavorNotes}*)`).join('\n')}
+${(event.ideation?.menuAndBeverages?.cocktails || []).map(d => `- **${d.name}** (${d.type}): ${d.ingredients} (*${d.flavorNotes}*)`).join('\n')}
 
 ### Catering Highlights
-${event.ideation.menuAndBeverages.cateringCourses.map(c => `- **${c.course}**: ${c.dishName} [${c.dietaryTags.join(', ')}] — ${c.description}`).join('\n')}
+${(event.ideation?.menuAndBeverages?.cateringCourses || []).map(c => `- **${c.course}**: ${c.dishName} [${(c.dietaryTags || []).join(', ')}] — ${c.description}`).join('\n')}
 
 ### Toast & Speech Talking Points
-${event.ideation.contentAndScripts.toastSpeechOutline.map(s => `- **${s.section}** (${s.durationEstimate}): ${s.talkingPoints}`).join('\n')}
+${(event.ideation?.contentAndScripts?.toastSpeechOutline || []).map(s => `- **${s.section}** (${s.durationEstimate}): ${s.talkingPoints}`).join('\n')}
 `;
   };
 
@@ -145,7 +144,7 @@ ${event.ideation.contentAndScripts.toastSpeechOutline.map(s => `- **${s.section}
         } else {
           alert('Invalid event plan JSON schema.');
         }
-      } catch (err) {
+      } catch {
         alert('Could not parse JSON file.');
       }
     };

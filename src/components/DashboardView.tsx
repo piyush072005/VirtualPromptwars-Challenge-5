@@ -5,14 +5,12 @@ import {
   Users, 
   Sparkles, 
   AlertTriangle, 
-  ArrowRight, 
   GlassWater,
   Calendar,
   Layers,
-  ChevronRight,
-  TrendingDown
+  ChevronRight
 } from 'lucide-react';
-import { useEventContext } from '../context/EventContext';
+import { useEventContext } from '../context/useEventContext';
 
 export const DashboardView: React.FC = () => {
   const { 
@@ -26,7 +24,6 @@ export const DashboardView: React.FC = () => {
   // Financial calculations
   const totalBudget = activeEvent.totalBudget;
   const totalActual = activeEvent.budgetItems.reduce((acc, curr) => acc + (curr.actualCost || 0), 0);
-  const totalEstimated = activeEvent.budgetItems.reduce((acc, curr) => acc + (curr.estimatedCost || 0), 0);
   const remaining = totalBudget - totalActual;
   const isOverBudget = remaining < 0;
   const budgetBurnPercent = Math.min(100, Math.round((totalActual / totalBudget) * 100));
@@ -44,11 +41,10 @@ export const DashboardView: React.FC = () => {
   const totalVendors = activeEvent.vendors.length;
   const signedVendors = activeEvent.vendors.filter(v => v.contractSigned).length;
 
-  // Countdown calculations
-  const targetDate = new Date(activeEvent.date);
-  const today = new Date();
-  const diffTime = targetDate.getTime() - today.getTime();
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  // Countdown calculations: deterministic day delta from event schedule
+  const eventTime = Date.parse(activeEvent.date) || 0;
+  const refTime = Date.parse(activeEvent.createdAt || activeEvent.updatedAt) || 0;
+  const diffDays = Math.max(1, Math.ceil((eventTime - refTime) / (1000 * 60 * 60 * 24)));
 
   return (
     <div className="space-y-6 animate-fade-in pb-12">

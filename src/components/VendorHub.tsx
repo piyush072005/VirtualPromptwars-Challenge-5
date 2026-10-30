@@ -3,21 +3,18 @@ import {
   Users, 
   Plus, 
   Trash2, 
-  CheckCircle2, 
   AlertTriangle, 
   ShieldCheck, 
-  FileText, 
   Phone, 
   Mail, 
   HelpCircle,
   Check,
   ChevronDown,
   ChevronUp,
-  Award,
-  DollarSign
+  Award
 } from 'lucide-react';
-import { useEventContext } from '../context/EventContext';
-import { VendorCard, VendorStatus, VendorQuote } from '../types/event';
+import { useEventContext } from '../context/useEventContext';
+import { VendorCard, VendorStatus } from '../types/event';
 
 export const VendorHub: React.FC = () => {
   const { 
@@ -470,8 +467,9 @@ export const VendorHub: React.FC = () => {
 
             <form onSubmit={handleCreateVendor} className="space-y-3">
               <div>
-                <label className="text-xs font-semibold text-slate-300">Vendor Business Name</label>
+                <label htmlFor="vendor-name-input" className="text-xs font-semibold text-slate-300">Vendor Business Name</label>
                 <input
+                  id="vendor-name-input"
                   type="text"
                   required
                   value={newVendor.name}
@@ -483,10 +481,11 @@ export const VendorHub: React.FC = () => {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-xs font-semibold text-slate-300">Category</label>
+                  <label htmlFor="vendor-category-select" className="text-xs font-semibold text-slate-300">Category</label>
                   <select
+                    id="vendor-category-select"
                     value={newVendor.category}
-                    onChange={(e) => setNewVendor({ ...newVendor, category: e.target.value as any })}
+                    onChange={(e) => setNewVendor({ ...newVendor, category: e.target.value as VendorCard['category'] })}
                     className="w-full mt-1 bg-surface-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:ring-2 focus:ring-brand-500/40"
                   >
                     <option value="Venue">Venue</option>
@@ -500,8 +499,9 @@ export const VendorHub: React.FC = () => {
                   </select>
                 </div>
                 <div>
-                  <label className="text-xs font-semibold text-slate-300">Target Budget ({activeEvent.currency})</label>
+                  <label htmlFor="vendor-budget-input" className="text-xs font-semibold text-slate-300">Target Budget ({activeEvent.currency})</label>
                   <input
+                    id="vendor-budget-input"
                     type="number"
                     min="0"
                     value={newVendor.estimatedCost}
@@ -512,8 +512,9 @@ export const VendorHub: React.FC = () => {
               </div>
 
               <div>
-                <label className="text-xs font-semibold text-slate-300">Primary Contact Person</label>
+                <label htmlFor="vendor-contact-input" className="text-xs font-semibold text-slate-300">Primary Contact Person</label>
                 <input
+                  id="vendor-contact-input"
                   type="text"
                   value={newVendor.contactPerson}
                   onChange={(e) => setNewVendor({ ...newVendor, contactPerson: e.target.value })}
@@ -524,8 +525,9 @@ export const VendorHub: React.FC = () => {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-xs font-semibold text-slate-300">Phone</label>
+                  <label htmlFor="vendor-phone-input" className="text-xs font-semibold text-slate-300">Phone</label>
                   <input
+                    id="vendor-phone-input"
                     type="text"
                     value={newVendor.phone}
                     onChange={(e) => setNewVendor({ ...newVendor, phone: e.target.value })}
@@ -534,8 +536,9 @@ export const VendorHub: React.FC = () => {
                   />
                 </div>
                 <div>
-                  <label className="text-xs font-semibold text-slate-300">Email</label>
+                  <label htmlFor="vendor-email-input" className="text-xs font-semibold text-slate-300">Email</label>
                   <input
+                    id="vendor-email-input"
                     type="email"
                     value={newVendor.email}
                     onChange={(e) => setNewVendor({ ...newVendor, email: e.target.value })}

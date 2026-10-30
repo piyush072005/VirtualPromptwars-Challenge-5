@@ -77,4 +77,32 @@ describe('EventVibe AI Integration Suite', () => {
       expect(screen.getByText(/Transition from Full Open Spirits/i)).toBeInTheDocument();
     });
   });
+
+  it('navigates to Creative Studio and displays the 5-color palette and curated courses', async () => {
+    render(<App />);
+
+    const creativeNavButton = screen.getByRole('button', { name: 'Creative Ideation' });
+    fireEvent.click(creativeNavButton);
+
+    expect(screen.getByText(/GenAI Creative Ideation Suite/i)).toBeInTheDocument();
+    expect(screen.getByText(/Cohesive HEX Color Palette/i)).toBeInTheDocument();
+    expect(screen.getByText(/Decor, Centerpieces & Lighting Directives/i)).toBeInTheDocument();
+  });
+
+  it('navigates to Export view and opens modal displaying Markdown and JSON tabs', async () => {
+    render(<App />);
+
+    const exportNavButton = screen.getByRole('button', { name: 'Export & Print Dossier' });
+    fireEvent.click(exportNavButton);
+
+    expect(screen.getByText(/Export & Print Master Dossier/i)).toBeInTheDocument();
+
+    const openDialogButton = screen.getByRole('button', { name: /Open Export & Print Dialog/i });
+    fireEvent.click(openDialogButton);
+
+    await waitFor(() => {
+      expect(screen.getByText(/Markdown Dossier \(\.md\)/i)).toBeInTheDocument();
+      expect(screen.getByText(/JSON Schema \(\.json\)/i)).toBeInTheDocument();
+    });
+  });
 });

@@ -2,14 +2,12 @@ import React, { useState } from 'react';
 import { 
   X, 
   Key, 
-  ShieldCheck, 
   ExternalLink, 
-  CheckCircle2, 
-  AlertCircle,
+  CheckCircle2,
   Sparkles,
   Lock
 } from 'lucide-react';
-import { useEventContext } from '../context/EventContext';
+import { useEventContext } from '../context/useEventContext';
 
 export const ApiKeyModal: React.FC = () => {
   const { 
@@ -81,7 +79,7 @@ export const ApiKeyModal: React.FC = () => {
         {/* Input Form */}
         <form onSubmit={handleSave} className="space-y-4">
           <div>
-            <label className="text-xs font-semibold text-slate-300 flex items-center justify-between">
+            <label htmlFor="gemini-api-key-input" className="text-xs font-semibold text-slate-300 flex items-center justify-between">
               <span>Google Gemini API Key</span>
               <a
                 href="https://aistudio.google.com/app/apikey"
@@ -93,6 +91,7 @@ export const ApiKeyModal: React.FC = () => {
               </a>
             </label>
             <input
+              id="gemini-api-key-input"
               type="password"
               value={inputKey}
               onChange={(e) => setInputKey(e.target.value)}

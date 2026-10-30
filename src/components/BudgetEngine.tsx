@@ -12,7 +12,7 @@ import {
   Loader2,
   Tag
 } from 'lucide-react';
-import { useEventContext } from '../context/EventContext';
+import { useEventContext } from '../context/useEventContext';
 import { useBudgetCalculator } from '../hooks/useBudgetCalculator';
 import { BudgetItem, AICostOptimizationSuggestion } from '../types/event';
 import { generateCostOptimizations } from '../services/geminiService';
@@ -140,8 +140,7 @@ export const BudgetEngine: React.FC = () => {
     burnPercentage,
     contingencyTotal,
     contingencyPercent,
-    categorySummaries,
-    categories
+    categorySummaries
   } = useBudgetCalculator(activeEvent);
 
   const [selectedCategoryFilter, setSelectedCategoryFilter] = useState<string>('All');

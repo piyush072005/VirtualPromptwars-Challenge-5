@@ -11,7 +11,7 @@ import {
   Users2,
   CalendarCheck
 } from 'lucide-react';
-import { useEventContext, TabType } from '../context/EventContext';
+import { useEventContext, TabType } from '../context/useEventContext';
 
 export const Sidebar: React.FC = () => {
   const { activeTab, setActiveTab, activeEvent } = useEventContext();
@@ -73,14 +73,16 @@ export const Sidebar: React.FC = () => {
           <span className="text-[11px] font-semibold tracking-wider uppercase text-slate-400 px-3">
             Core Planning Modules
           </span>
-          <nav className="mt-2 space-y-1">
+          <nav aria-label="Core Planning Modules" className="mt-2 space-y-1">
             {navItems.map((item) => {
               const isActive = activeTab === item.id;
               return (
                 <button
                   key={item.id}
                   onClick={() => setActiveTab(item.id)}
-                  className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium transition-all ${
+                  aria-current={isActive ? 'page' : undefined}
+                  aria-label={item.label}
+                  className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium transition-all focus-visible:ring-2 focus-visible:ring-brand-400 ${
                     isActive
                       ? 'bg-gradient-to-r from-brand-500/20 to-accent-500/10 text-white border border-brand-500/30 shadow-sm'
                       : 'text-slate-300 hover:text-white hover:bg-surface-900/80'

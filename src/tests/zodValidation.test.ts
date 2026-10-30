@@ -65,4 +65,77 @@ describe('Zod Runtime Schema Validation', () => {
     const parsed = AICostOptimizationSuggestionSchema.safeParse(validSuggestion);
     expect(parsed.success).toBe(true);
   });
+
+  it('validates a complete end-to-end EventPlan structure against EventPlanSchema', () => {
+    const samplePlan = {
+      id: 'event-test-1',
+      name: 'Autumn Harvest Gala',
+      eventType: 'Community Festival / Fundraiser',
+      date: '2026-11-15',
+      time: '18:00',
+      location: 'Central Plaza Amphitheater',
+      guestCount: 250,
+      demographics: 'Local residents and families',
+      setting: 'Outdoor',
+      vibeTone: 'Rustic and celebratory',
+      currency: '$',
+      totalBudget: 35000,
+      budgetItems: [
+        {
+          id: 'b-1',
+          category: 'Venue & Logistics',
+          name: 'Plaza Grounds Rental',
+          estimatedCost: 10000,
+          actualCost: 9500,
+          paid: true
+        }
+      ],
+      macroMilestones: [
+        {
+          id: 'm-1',
+          timeframe: 'T-3 months',
+          title: 'Confirm Municipal Permits',
+          description: 'File noise permits',
+          completed: true,
+          priority: 'High'
+        }
+      ],
+      dayOfItinerary: [
+        {
+          id: 't-1',
+          time: '08:00 AM',
+          title: 'Load-in & Stage Setup',
+          durationMinutes: 120,
+          owner: 'Production Crew',
+          status: 'Pending',
+          category: 'Setup'
+        }
+      ],
+      vendors: [],
+      ideation: {
+        themeTitle: 'Rustic Harvest',
+        vibeStatement: 'Cozy community celebration',
+        colorPalette: [
+          { hex: '#D97706', name: 'Amber Glow', usage: 'Linens' }
+        ],
+        decorAndLighting: [],
+        menuAndBeverages: {
+          cocktails: [],
+          cateringCourses: [],
+          pairings: []
+        },
+        contentAndScripts: {
+          invitationCopyFormal: 'Welcome',
+          invitationCopyCasual: 'Join us',
+          toastSpeechOutline: [],
+          signageText: []
+        }
+      },
+      createdAt: '2026-10-30T10:00:00Z',
+      updatedAt: '2026-10-30T10:00:00Z'
+    };
+
+    const parsed = EventPlanSchema.safeParse(samplePlan);
+    expect(parsed.success).toBe(true);
+  });
 });
